@@ -29,9 +29,17 @@ defaultEntryPoints = ["http", "https"]
   storage = "acme.json"
   entryPoint = "https"
   onHostRule = true
-  [acme.httpChallenge]
-    entryPoint = "http"
+{% if use_dns_challenge %}
+  acmeLogging = true
+  onDemand = false
 
+[acme.dnsChallenge]
+  provider = "{{ dns_provider }}"
+  delayBeforeCheck = 300
+[[acme.domains]]
+  main = "{{ domain }}"
+{% else %}
 [[acme.domains]]
   main = "*.{{ domain }}"
   sans = ["{{ domain }}"]
+{% endif %}
