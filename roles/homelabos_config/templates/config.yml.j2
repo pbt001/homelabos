@@ -189,5 +189,12 @@ traefik:
   expose_internally {{ traefik.expose_internally | default(False)  }}
   expose_externally {{ traefik.expose_externally | default(True)  }}
 
+# Options for SSL via DNS instead of HTTP
+dnsChallenge:
+  use_dns_challenge: {{ use_dns_challenge | default(False)  }}
+  cloudflare_email: {{ cloudflare_email | default()  }}
+  cloudflare_api: {{ cloudflare_api | default()  }}
+  dns_provider: {{ dns_provider | default()  }}
+
 # LDAP Settings
 ldap_org_name: {{ ldap_org_name | default() }}
