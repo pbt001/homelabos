@@ -188,11 +188,19 @@ mailserver:
 traefik:
   expose_internally: {{ traefik.expose_internally | default(False)  }}
   expose_externally: {{ traefik.expose_externally | default(True)  }}
-  use_http_challenge: {{ use_dns_challenge | default(True)  }}
-  use_dns_challenge: {{ use_dns_challenge | default(False)  }}
+  # ACME Challenge: https://docs.traefik.io/configuration/acme/#acme-challenge
+  # Options are tlsChallenge, httpChallenge, dnsChallenge
+  acme_challenge: {{ acme_challenge | default(httpChallenge)  }}
+  # Full options list: https://docs.traefik.io/configuration/acme/#provider
+  # Includes: cloudflare, digitalocean, ovh, route53, vultr and many more
   dns_provider: {{ dns_provider | default()  }}
+  ## Cloudflare
   cloudflare_email: {{ cloudflare_email | default()  }}
   cloudflare_api_key: {{ cloudflare_api_key | default()  }}
+  ## Digital Ocean
+  do_auth_token: {{ do_auth_token | default ()  }}
+  ## Vultr
+  vultr_api_key: {{ vultr_api_key | default()  }}
 
 gitea:
   use_mariadb {{ gitea.use_mariadb | default(True)  }}
