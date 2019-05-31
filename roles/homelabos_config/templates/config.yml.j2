@@ -188,6 +188,11 @@ mailserver:
 traefik:
   expose_internally: {{ traefik.expose_internally | default(False)  }}
   expose_externally: {{ traefik.expose_externally | default(True)  }}
+  use_http_challenge: {{ use_dns_challenge | default(True)  }}
+  use_dns_challenge: {{ use_dns_challenge | default(False)  }}
+  dns_provider: {{ dns_provider | default()  }}
+  cloudflare_email: {{ cloudflare_email | default()  }}
+  cloudflare_api_key: {{ cloudflare_api_key | default()  }}
 
 gitea:
   use_mariadb {{ gitea.use_mariadb | default(True)  }}
