@@ -1,15 +1,15 @@
-debug = false
+debug = true
 
-logLevel = "ERROR"
+logLevel = "DEBUG"
 defaultEntryPoints = ["http", "https"]
 
 [entryPoints]
-  [entryPoints.http]
-  address = ":80"
-{% if https_only %}
+  [entryPoints.web]
+    address = ":80"
+    [entryPoints.web.proxyProtocol]
+      insecure = true
     [entryPoints.http.redirect]
     entryPoint = "https"
-{% endif %}
   [entryPoints.https]
   address = ":443"
   [entryPoints.https.tls]
@@ -20,18 +20,22 @@ defaultEntryPoints = ["http", "https"]
 
 [Docker]
   endpoint = "unix:///var/run/docker.sock"
-  domain = "{{ domain }}"
+  domain = "curl.fun"
   watch = true
   exposedByDefault = false
 
 [acme]
-  email = "{{ admin_email }}"
+  email = "kebertxela86@gmail.com"
   storage = "acme.json"
   entryPoint = "https"
   onHostRule = true
-  [acme.httpChallenge]
-    entryPoint = "http"
+  acmeLogging = true
+  onDemand = false #create certificate when container is created
+
+[acme.dnsChallenge]
+  provider = "cloudflare"
+  delayBeforeCheck = 60
 
 [[acme.domains]]
-  main = "*.{{ domain }}"
-  sans = ["{{ domain }}"]
+  main = "*.curl.fun"
+  sans = ["curl.fun"]
